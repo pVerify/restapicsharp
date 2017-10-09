@@ -1,11 +1,11 @@
-﻿@model RestAPICSharp.Models.TokenModel
+﻿@model RestAPICSharp.Models.ElgResponse
 @{
     ViewBag.Title = "Token";
 }
 
 @using (Html.BeginForm())
 {
-   
+   @Html.AntiForgeryToken()
       <div class="row">
         <div class="col-md-12">
             @Html.ValidationSummary(false)
@@ -14,7 +14,7 @@
    
     <div class="row">
         <div class="col-md-12">
-            <h5><b>Create Token</b></h5>
+            <h5><b>Get Eligibility Response</b></h5>
         </div>
     </div>
     <div class="row">
@@ -22,7 +22,7 @@
             <h5><b>Method</b></h5>
         </div>
         <div class="col-md-2">
-            <h5><b>POST</b></h5>
+            <h5><b>GET</b></h5>
         </div>
         <div class="col-md-4">
 
@@ -38,10 +38,36 @@
     </div>
     <div class="row">
         <div class="col-md-2">
-           Content-Type 
+            Authorization
+        </div>
+        <div class="col-md-1">
+            Bearer [token]
+
+        </div>
+        <div class="col-md-6">
+            @Html.TextBoxFor(m => m.Token, "", new { @class = "form-control" })
+        </div>
+        <div class="col-md-3">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            Client-User-Name
         </div>
         <div class="col-md-4">
-            application/x-www-form-urlencoded
+            @Html.TextBoxFor(m => m.ClientUserName, "", new { @class = "form-control" })
+        </div>
+        <div class="col-md-6">
+
+        </div>
+    </div>
+    <div class="clearfix">&nbsp;</div>
+    <div class="row">
+        <div class="col-md-2">
+            Client-Password
+        </div>
+        <div class="col-md-4">
+            @Html.PasswordFor(m => m.ClientPassword, new { @class = "form-control" })
         </div>
         <div class="col-md-6">
 
@@ -50,40 +76,28 @@
     <div class="clearfix">&nbsp;</div>
     <div class="row">
         <div class="col-md-12">
-           <h5><b>Request body</b></h5> 
+           <h5><b>Request  URL Parameter</b></h5> 
         </div>
     </div>
 
-<div class="row">
-    <div class="col-md-2">
-        User Name 
-    </div>
-    <div class="col-md-4">
-        @Html.TextBoxFor(m => m.UserName, "", new {@class="form-control" })
-    </div>
-    <div class="col-md-6">
+    <div class="row">
+        <div class="col-md-2">
+            Eligibility Request Id
+        </div>
+        <div class="col-md-4">
+            @Html.TextBoxFor(m => m.ElgRequestId, new { @class = "form-control" })
+        </div>
+        <div class="col-md-6">
 
+        </div>
     </div>
-</div>
-    <div class="clearfix">&nbsp;</div>
-<div class="row">
-    <div class="col-md-2">
-        Password
-    </div>
-    <div class="col-md-4">
-        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-    </div>
-    <div class="col-md-6">
-
-    </div>
-</div>
     <div class="clearfix">&nbsp;</div>
     <div class="row">
         <div class="col-md-2">
           
         </div>
         <div class="col-md-4">
-         <input type="submit" value="Create Token" class="btn btn-default"/>
+         <input type="submit" value="Get Response" class="btn btn-default"/>
         </div>
         <div class="col-md-6">
 
@@ -92,7 +106,7 @@
     <div class="clearfix">&nbsp;</div>
     <div class="row">
         <div class="col-md-12">
-            <h3><b>Response</b></h3>
+            <h5><b>Response</b></h5>
         </div>
     </div>
     <div class="clearfix">&nbsp;</div>

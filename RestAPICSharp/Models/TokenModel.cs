@@ -14,6 +14,11 @@ namespace RestAPICSharp.Models
 
     }
 
+    public class ElgResponse :APIResponse 
+    {
+        public int ElgRequestId { get; set; }
+    }
+
     public class APIResponse
     {
 
@@ -22,5 +27,6 @@ namespace RestAPICSharp.Models
         public string Token { get; set; }
         public string ClientUserName { get; set; }
         public string ClientPassword { get; set; }
+        public string ApiRequest { get; set; }
     }
 }

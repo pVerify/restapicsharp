@@ -167,6 +167,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\BOClasses.cs" />
+    <Compile Include="Models\BORequestClasses.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\PayerModel.cs" />
@@ -234,6 +236,9 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\RestAPI\Token.cshtml" />
     <Content Include="Views\RestAPI\Payers.cshtml" />
+    <Content Include="Views\RestAPI\Self.cshtml" />
+    <Content Include="Views\RestAPI\Dependent.cshtml" />
+    <Content Include="Views\RestAPI\GetResponse.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
