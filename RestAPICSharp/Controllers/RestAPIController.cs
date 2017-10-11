@@ -7,6 +7,7 @@ using RestAPICSharp.Models;
 using RestSharp;
 using System.Configuration;
 using Newtonsoft.Json;
+using System.Net;
 
 namespace RestAPICSharp.Controllers
 {
@@ -22,6 +23,7 @@ namespace RestAPICSharp.Controllers
         public ActionResult Token()
         {
             TokenModel token = new TokenModel();
+            token.Token = "";
             token.ApiResponse = "";
             return View(token);
         }
@@ -38,13 +40,18 @@ namespace RestAPICSharp.Controllers
            
             request.RequestFormat = DataFormat.Json;
 
-        
             RestClient client = new RestClient(apiBaseURL);
             // client.Timeout = 3 * 60 * 1000;//3 minutes
 
             IRestResponse response = client.Execute(request);
             model.StatusCode = response.StatusCode;
             model.ApiResponse = response.Content;
+            if(response.StatusCode==HttpStatusCode.OK)
+            {
+                dynamic r = JsonConvert.DeserializeObject(response.Content);
+                model.Token = r.access_token;
+            }
+           
          
             return View(model);
         }
