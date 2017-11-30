@@ -1,11 +1,12 @@
 ﻿@model RestAPICSharp.Models.PayerModel
 @{
-    ViewBag.Title = "Payers";
+    ViewBag.Title = "Get Pending";
 }
 
 @using (Html.BeginForm())
 {
-   @Html.AntiForgeryToken()
+    @Html.AntiForgeryToken()
+   
     <div class="clearfix">&nbsp;</div>
     <div class="row">
         <div class="col-md-12">
@@ -14,7 +15,7 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-            <h5><b>Get Pending Transaction List</b></h5>
+            <h5><b>Get pVerify Payers List</b></h5>
         </div>
     </div>
     <div class="row">
@@ -79,12 +80,11 @@
     </div>
     <div class="clearfix">&nbsp;</div>
     <div class="row">
-        <div class="col-md-2">
-         <b>  Request Body</b>
+        <div class="col-md-3">
+         <b>  Request URI Parameter</b>
         </div>
-        <div class="col-md-4">
-           No body prameters
-
+        <div class="col-md-3">
+            
         </div>
 
         <div class="col-md-6">
@@ -92,52 +92,72 @@
     </div>
   <div class="clearfix">&nbsp;</div>
     <div class="row">
-        <div class="col-md-2">
+        <div class="col-md-offset-2 col-md-3">
+            DOS (MM/dd/yyyy) <span style="color:red">*</span>
+            @Html.TextBoxFor(m => m.DOS, "", new { @class = "form-control" })
+        </div>
+        <div class="col-md-7">
+            @Html.ValidationMessageFor(m=>m.DOS,"", new { @class = "text-danger" })
+        </div>
 
-        </div>
-        <div class="col-md-4">
-            <input type="submit" value="Get Payers" class="btn btn-default" />
-        </div>
-        <div class="col-md-6">
 
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-12">
-            <h5><b> Response</b></h5>
-        </div>
     </div>
     <div class="clearfix">&nbsp;</div>
     <div class="row">
         <div class="col-md-2">
-            Status Code
+            <b>  Request body</b>
         </div>
-        <div class="col-md-1">
-            <b>    @( (int)Model.StatusCode) </b>
+        <div class="col-md-10">
+            <b>No body Parameter</b>
+        </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+
+            </div>
+            <div class="col-md-4">
+                <input type="submit" value="Get Pending Transactions" class="btn btn-default" />
+            </div>
+            <div class="col-md-6">
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <h5><b> Response</b></h5>
+            </div>
+        </div>
+        <div class="clearfix">&nbsp;</div>
+        <div class="row">
+            <div class="col-md-2">
+                Status Code
+            </div>
+            <div class="col-md-1">
+                <b>    @( (int)Model.StatusCode) </b>
             </div>
             <div class="col-md-9">
                 <b>   @Model.StatusCode.ToString()</b>
             </div>
 
-    </div>
-    <div class="clearfix">&nbsp;</div>
-<div class="row">
-    <div class="col-md-2">
-     Response
-    </div>
-    <div class="col-md-8">
-  
+        </div>
+        <div class="clearfix">&nbsp;</div>
+        <div class="row">
+            <div class="col-md-2">
+                Response
+            </div>
+            <div class="col-md-8">
 
-         @Html.TextAreaFor(m => m.ApiResponse, new  {style = "border-style:Solid;font-family:Courier New;font-size:8pt;height:400px;background-color: white;max-width:700px" ,cols=120,rows=15})
-    </div>
-  
-      <div class="col-md-2">
-          @*<button onclick="prettyPrint()">Pretty Print</button>*@
-  </div>
-    <div id="divRes" style="display:none">
-        @Model.ApiResponse
-    </div>
-</div>
-}
+
+                @Html.TextAreaFor(m => m.ApiResponse, new  {style = "border-style:Solid;font-family:Courier New;font-size:8pt;height:400px;background-color: white;max-width:700px" ,cols=120,rows=15})
+            </div>
+
+            <div class="col-md-2">
+                @*<button onclick="prettyPrint()">Pretty Print</button>*@
+            </div>
+            <div id="divRes" style="display:none">
+                @Model.ApiResponse
+            </div>
+        </div>
+        }
 

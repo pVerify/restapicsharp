@@ -50,6 +50,8 @@ namespace RestAPICSharp.Controllers
             {
                 dynamic r = JsonConvert.DeserializeObject(response.Content);
                 model.Token = r.access_token;
+                Session["accessToken"] = model.Token;
+                Session["userName"] = model.UserName;
             }
            
          
@@ -64,10 +66,13 @@ namespace RestAPICSharp.Controllers
         public ActionResult Payers()
         {
             PayerModel model = new PayerModel();
+            model.Token = GetToken();
+            model.ClientUserName = GetUserName();
             return View(model);
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Payers(PayerModel model)
         {
             string apiBaseURL = ConfigurationManager.AppSettings["RestAPIURL"];
@@ -101,6 +106,8 @@ namespace RestAPICSharp.Controllers
             request.Provider = new PboProvider();
             model.Request = request;
             model.Response = new APIResponse();
+            model.Response.Token = GetToken();
+            model.Response. ClientUserName = GetUserName();
             return View(model);
         }
 
@@ -149,6 +156,8 @@ namespace RestAPICSharp.Controllers
             request.Provider = new PboProvider();
             model.Request = request;
             model.Response = new APIResponse();
+            model.Response.Token = GetToken();
+            model.Response. ClientUserName = GetUserName();
             return View(model);
         }
 
@@ -196,6 +205,8 @@ namespace RestAPICSharp.Controllers
         public ActionResult GetResponse()
         {
             ElgResponse model = new ElgResponse();
+            model.Token = GetToken();
+            model.ClientUserName = GetUserName();
             return View(model);
         }
 
@@ -220,9 +231,112 @@ namespace RestAPICSharp.Controllers
 
         }
 
+       
+
 
         #endregion
 
+        #region Pending Transactions
+
+
+        public ActionResult Pending()
+        {
+            PayerModel model = new PayerModel();
+            model.Token = GetToken();
+            model.ClientUserName = GetUserName();
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Pending(PayerModel model)
+        {
+            DateTime dt;
+            if(!DateTime.TryParse(model.DOS,out dt))
+            {
+                ModelState.AddModelError("DOS", "Invalid date.");
+                return View(model);
+            }
+
+            string apiBaseURL = ConfigurationManager.AppSettings["RestAPIURL"];
+            var request = new RestRequest("/API/GetPendingInquiries?dos="+dt.ToString("MM-dd-yyyy"), Method.GET);
+            //add headers
+            request.AddHeader("Authorization", "Bearer " + model.Token);
+            request.AddHeader("Client-User-Name", model.ClientUserName);
+            request.AddHeader("Client-Password", model.ClientPassword);
+
+            RestClient client = new RestClient(apiBaseURL);
+            //execute the request using rest client object
+            IRestResponse response = client.Execute(request);
+            model.StatusCode = response.StatusCode;
+            model.ApiResponse = response.Content;
+
+            return View(model);
+
+        }
+        #endregion
+
+        #region Cancel Transactions
+
+
+        public ActionResult CancelTransaction()
+        {
+            PayerModel model = new PayerModel();
+            model.Token = GetToken();
+            model.ClientUserName = GetUserName();
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CancelTransaction(PayerModel model)
+        {
+           
+            string apiBaseURL = ConfigurationManager.AppSettings["RestAPIURL"];
+            var request = new RestRequest("/API/CancelTransaction", Method.POST);
+            //add headers
+            request.AddHeader("Authorization", "Bearer " + model.Token);
+            request.AddHeader("Client-User-Name", model.ClientUserName);
+            request.AddHeader("Client-Password", model.ClientPassword);
+            request.RequestFormat = DataFormat.Json;
+            request.AddBody(new { TransactionId = model.TransactionId });
+            RestClient client = new RestClient(apiBaseURL);
+
+            model.ApiRequest = JsonConvert.SerializeObject(new { TransactionId = model.TransactionId });
+            model.ApiRequest = model.ApiRequest.Trim();
+
+            //execute the request using rest client object
+            IRestResponse response = client.Execute(request);
+            model.StatusCode = response.StatusCode;
+            model.ApiResponse = response.Content;
+            
+            return View(model);
+        }
+
+        #endregion
+
+        #region NON Actions
+        [NonAction]
+        private string GetToken()
+        {
+            if(Session["accessToken"] !=null)
+            {
+                return Session["accessToken"].ToString();
+            }
+
+            return "";
+        }
+        [NonAction]
+        private string GetUserName()
+        {
+            if (Session["userName"] != null)
+            {
+                return Session["userName"].ToString();
+            }
+
+            return "";
+        }
+#endregion
 
     }
 }

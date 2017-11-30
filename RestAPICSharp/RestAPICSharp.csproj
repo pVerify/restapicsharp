@@ -240,6 +240,8 @@
     <Content Include="Views\RestAPI\Self.cshtml" />
     <Content Include="Views\RestAPI\Dependent.cshtml" />
     <Content Include="Views\RestAPI\GetResponse.cshtml" />
+    <Content Include="Views\RestAPI\Pending.cshtml" />
+    <Content Include="Views\RestAPI\CancelTransaction.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
