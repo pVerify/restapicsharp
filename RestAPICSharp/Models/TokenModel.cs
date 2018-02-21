@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Net;
+using System.Web.Mvc;
 
 namespace RestAPICSharp.Models
 {
@@ -28,5 +29,27 @@ namespace RestAPICSharp.Models
         public string ClientUserName { get; set; }
         public string ClientPassword { get; set; }
         public string ApiRequest { get; set; }
+    }
+
+    public class  PayerHelper
+    {
+
+        public static SelectList GetSupportedPayerList()
+        {
+
+            List<PayerUI> list = new List<PayerUI>(){ new PayerUI(){ Code="00007",Name="Medicare Part A and B" },
+                                              new PayerUI(){ Code="00001",Name="Aetna" }
+                                  };
+          
+            return new SelectList(list,"Code","Name");
+
+            }
+        }
+    
+
+    public class PayerUI
+    {
+        public string Code { get; set; }
+        public string Name { get; set; }
     }
 }

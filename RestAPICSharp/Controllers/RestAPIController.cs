@@ -25,6 +25,9 @@ namespace RestAPICSharp.Controllers
             TokenModel token = new TokenModel();
             token.Token = "";
             token.ApiResponse = "";
+            token.UserName = "pverify_demo";
+            token.Password = "pverify@949";
+         
             return View(token);
         }
 
@@ -52,6 +55,7 @@ namespace RestAPICSharp.Controllers
                 model.Token = r.access_token;
                 Session["accessToken"] = model.Token;
                 Session["userName"] = model.UserName;
+                Session["password"] = model.Password;
             }
            
          
@@ -68,6 +72,7 @@ namespace RestAPICSharp.Controllers
             PayerModel model = new PayerModel();
             model.Token = GetToken();
             model.ClientUserName = GetUserName();
+            model.ClientPassword = GetPassword();
             return View(model);
         }
 
@@ -104,10 +109,13 @@ namespace RestAPICSharp.Controllers
             request.Subscriber = new PboReqSubscriber();
             request.ServiceCodes = new List<string>();
             request.Provider = new PboProvider();
+            request.DOS_EndDate = DateTime.Now.ToString("MM/dd/yyyy");
+            request.DOS_StartDate = DateTime.Now.ToString("MM/dd/yyyy");
             model.Request = request;
             model.Response = new APIResponse();
             model.Response.Token = GetToken();
             model.Response. ClientUserName = GetUserName();
+            model.Response.ClientPassword = GetPassword();
             return View(model);
         }
 
@@ -154,10 +162,13 @@ namespace RestAPICSharp.Controllers
             request.Dependent.Patient = new PboPatient();
             request.ServiceCodes = new List<string>();
             request.Provider = new PboProvider();
+            request.DOS_EndDate = DateTime.Now.ToString("MM/dd/yyyy");
+            request.DOS_StartDate = DateTime.Now.ToString("MM/dd/yyyy");
             model.Request = request;
             model.Response = new APIResponse();
             model.Response.Token = GetToken();
             model.Response. ClientUserName = GetUserName();
+            model.Response.ClientPassword = GetPassword();
             return View(model);
         }
 
@@ -207,6 +218,7 @@ namespace RestAPICSharp.Controllers
             ElgResponse model = new ElgResponse();
             model.Token = GetToken();
             model.ClientUserName = GetUserName();
+            model.ClientPassword = GetPassword();
             return View(model);
         }
 
@@ -231,9 +243,7 @@ namespace RestAPICSharp.Controllers
 
         }
 
-       
-
-
+      
         #endregion
 
         #region Pending Transactions
@@ -243,7 +253,9 @@ namespace RestAPICSharp.Controllers
         {
             PayerModel model = new PayerModel();
             model.Token = GetToken();
+            
             model.ClientUserName = GetUserName();
+            model.ClientPassword = GetPassword();
             return View(model);
         }
 
@@ -274,6 +286,7 @@ namespace RestAPICSharp.Controllers
             return View(model);
 
         }
+      
         #endregion
 
         #region Cancel Transactions
@@ -284,6 +297,7 @@ namespace RestAPICSharp.Controllers
             PayerModel model = new PayerModel();
             model.Token = GetToken();
             model.ClientUserName = GetUserName();
+            model.ClientPassword = GetPassword();
             return View(model);
         }
 
@@ -332,6 +346,17 @@ namespace RestAPICSharp.Controllers
             if (Session["userName"] != null)
             {
                 return Session["userName"].ToString();
+            }
+
+            return "";
+        }
+
+        [NonAction]
+        private string GetPassword()
+        {
+            if (Session["password"] != null)
+            {
+                return Session["password"].ToString();
             }
 
             return "";
